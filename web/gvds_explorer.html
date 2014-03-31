@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+
+<html ng-app>
+  <head>
+    <meta charset="utf-8">
+    <title>Gvds explorer</title>
+    <link rel="stylesheet" href="gvds_explorer.css">
+  </head>
+  <body gvds-explorer-ctrl ng-cloak>
+    <h1>Gvds explorer</h1>
+
+    <div class="baseUrl">
+      <label>Base URL:
+        <input type="text" size="50" ng-model="c.gvdsBaseUrl" ng-disabled="c.loginState != 'NOT_LOGGED_IN'">
+      </label>
+    </div>
+
+    <div class="login" ng-if="c.loginState != 'LOGGED_IN'">
+      <form ng-submit="c.login()">
+        <label>User:
+          <input type="text" ng-model="c.loginUser" ng-disabled="c.loginState != 'NOT_LOGGED_IN'">
+        </label>
+        <label>Pass:
+          <input type="password" ng-model="c.loginPass" ng-disabled="c.loginState != 'NOT_LOGGED_IN'">
+        </label>
+        <button type="submit">Login</button>
+      </form>
+      <div ng-if="c.loginError != null">{{c.loginError}}</div>
+    </div>
+
+    <div class="loggedin" ng-if="c.loginState == 'LOGGED_IN'">
+      <form ng-submit="c.logout()">
+        Logged in as <strong>{{c.loginUser}}</strong>, last version: <strong>{{c.lastVersion}}</strong>.
+        <button type="submit">Logout</button>
+      </form>
+    </div>
+
+    <script src="packages/shadow_dom/shadow_dom.min.js"></script>
+    <script type="application/dart" src="gvds_explorer.dart"></script>
+    <script src="packages/browser/dart.js"></script>
+  </body>
+</html>

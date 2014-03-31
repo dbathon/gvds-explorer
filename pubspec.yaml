@@ -1,0 +1,9 @@
+name: gvds_explorer
+description: A sample web application
+dependencies:
+  browser: any
+  crypto: any
+  utf: any
+  angular: 0.9.10
+  js: any
+  shadow_dom: any
