@@ -35,6 +35,25 @@
       </form>
     </div>
 
+    <div class="types" ng-if="c.loginState == 'LOGGED_IN'">
+      <ul>
+        <li ng-repeat="type in c.types" ng-click="c.selectType(type)" class="clickable">{{type}}</li>
+      </ul>
+      <form ng-submit="c.fetchData()">
+        <label>Type:
+          <input type="text" ng-model="c.type">
+        </label>
+        <button type="submit">Fetch data</button>
+      </form>
+    </div>
+
+    <div class="data" ng-if="c.loginState == 'LOGGED_IN' && c.dataCount != null">
+      <p>Count: {{c.dataCount}}</p>
+      <ul>
+        <li ng-repeat="data in c.data">{{data}}</li>
+      </ul>
+    </div>
+
     <script src="packages/shadow_dom/shadow_dom.min.js"></script>
     <script type="application/dart" src="gvds_explorer.dart"></script>
     <script src="packages/browser/dart.js"></script>

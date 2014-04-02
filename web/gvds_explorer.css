@@ -15,3 +15,7 @@ h1, p {
 [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
    display: none !important;
 }
+
+.clickable {
+  cursor: pointer;
+}

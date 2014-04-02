@@ -31,6 +31,12 @@ class AppController {
   GvdsClient client;
 
   int lastVersion;
+  List<String> types;
+
+  String type;
+
+  int dataCount;
+  List<Map<String, dynamic>> data;
 
   AppController() {
     restoreLoginData();
@@ -62,6 +68,8 @@ class AppController {
       lastVersion = response.data["version"].toInt();
       loginState = "LOGGED_IN";
       saveLoginData();
+
+      refreshTypes();
     }).catchError((GvdsResponse error) {
       loginError = "Login failed: ${error.request.statusText}";
       logout();
@@ -71,6 +79,37 @@ class AppController {
   void logout() {
     loginState = "NOT_LOGGED_IN";
     client = null;
+    lastVersion = null;
+    types = null;
+    type = null;
+    dataCount = null;
+    data = null;
+  }
+
+  void handleError(GvdsResponse error) {
+    // TODO
+    print("request error: ${error.request.statusText}, ${error.data}");
+  }
+
+  void refreshTypes() {
+    client.getTypes().then((GvdsResponse response) {
+      types = response.data["result"].map((Map item) => item["name"]).toList();
+    }).catchError(handleError);
+  }
+
+  void selectType(String type) {
+    this.type = type;
+    fetchData();
+  }
+
+  void fetchData() {
+    client.getDataCount(type).then((GvdsResponse response) {
+      dataCount = response.data["result"].toInt();
+    }).catchError(handleError);
+
+    client.getData(type, max: 10).then((GvdsResponse response) {
+      data = response.data["result"];
+    }).catchError(handleError);
   }
 
 }
